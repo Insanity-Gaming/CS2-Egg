@@ -1,0 +1,282 @@
+{
+  "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "exported_at": "2026-05-21T00:00:00+00:00",
+  "name": "Insanity Gaming CS2",
+  "author": "admin@insanitygaming.net",
+  "description": "Insanity Gaming CS2 server egg. SteamRT3 Sniper base. ModSharp support with extract blocklist, base map purge, log cleanup, and console filtering.",
+  "features": [],
+  "docker_images": {
+    "Insanity Gaming CS2": "ghcr.io/insanitygaming/cs2-egg:latest"
+  },
+  "file_denylist": [],
+  "startup": "./game/cs2.sh {{CUSTOM_PARAMS}} -dedicated +ip 0.0.0.0 -port {{SERVER_PORT}} +map {{SRCDS_MAP}} -maxplayers {{SRCDS_MAXPLAYERS}} +sv_setsteamaccount {{STEAM_ACC}} +game_type {{GAME_TYPE}} +game_mode {{GAME_MODE}}",
+  "config": {
+    "files": "{}",
+    "startup": "{\r\n    \"done\": \"Source2Init OK\"\r\n}",
+    "logs": "{}",
+    "stop": "quit"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\n# Dummy install script — actual installation happens on first startup\nexit 0",
+      "container": "ghcr.io/pterodactyl/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Prefix Text",
+      "description": "Text shown as the console log prefix.",
+      "env_variable": "PREFIX_TEXT",
+      "default_value": "InsanityGaming",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "string|max:24",
+      "field_type": "text"
+    },
+    {
+      "name": "Allow Tokenless Servers",
+      "description": "Internal setting — allows servers to run without a GSLT token.",
+      "env_variable": "ALLOW_TOKENLESS",
+      "default_value": "0",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Source AppID",
+      "description": "Steam AppID for CS2. Do not change.",
+      "env_variable": "SRCDS_APPID",
+      "default_value": "730",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "required|numeric",
+      "field_type": "text"
+    },
+    {
+      "name": "Max Players",
+      "description": "Maximum number of players the server can host.",
+      "env_variable": "SRCDS_MAXPLAYERS",
+      "default_value": "32",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "required|numeric|min:5|max:64",
+      "field_type": "text"
+    },
+    {
+      "name": "Disable Updates",
+      "description": "Set to 1 to skip SteamCMD on startup. The server will start with whatever files are currently installed.",
+      "env_variable": "SRCDS_STOP_UPDATE",
+      "default_value": "0",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Validate Install",
+      "description": "Set to 1 to have SteamCMD validate all game files on startup. Warning: this may overwrite custom files.",
+      "env_variable": "SRCDS_VALIDATE",
+      "default_value": "0",
+      "user_viewable": false,
+      "user_editable": false,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Game Server Login Token (GSLT)",
+      "description": "Steam Game Server Login Token for public server listing. Leave empty for LAN/private. Generate at: https://steamcommunity.com/dev/managegameservers",
+      "env_variable": "STEAM_ACC",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|max:32",
+      "field_type": "text"
+    },
+    {
+      "name": "Map",
+      "description": "Default map loaded on server start.",
+      "env_variable": "SRCDS_MAP",
+      "default_value": "de_dust2",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|alpha_dash",
+      "field_type": "text"
+    },
+    {
+      "name": "Game Type",
+      "description": "CS2 game type. 0=Classic, 1=Deathmatch, 2=Arms Race, 3=Demolition, 4=Danger Zone.",
+      "env_variable": "GAME_TYPE",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|in:0,1,2,3,4,5,6",
+      "field_type": "text"
+    },
+    {
+      "name": "Game Mode",
+      "description": "CS2 game mode. Meaning depends on Game Type.",
+      "env_variable": "GAME_MODE",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|in:0,1,2,3,4",
+      "field_type": "text"
+    },
+    {
+      "name": "Install ModSharp",
+      "description": "Install and auto-update ModSharp (standalone .NET 10 plugin framework). Set to 1 to enable.",
+      "env_variable": "INSTALL_MODSHARP",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "ModSharp Extract Blocklist",
+      "description": "Comma-separated list of regex patterns. After each ModSharp update, any extracted path under game/sharp/ that matches a pattern is deleted. Matched against paths relative to game/ (e.g. sharp/modules/AdminCommands). Examples: AdminCommands,DefaultChat.*,^sharp/modules/Weapons$",
+      "env_variable": "MODSHARP_EXTRACT_BLOCKLIST",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Allow Prerelease",
+      "description": "Set to 1 to allow prerelease/beta ModSharp builds from GitHub. May be unstable.",
+      "env_variable": "PRERELEASE",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Purge Base Maps",
+      "description": "Set to 1 to delete all *.vpk files from game/csgo/maps on every startup (after SteamCMD). Prevents Valve's default maps from returning after updates.",
+      "env_variable": "PURGE_BASE_MAPS",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Enable Console Filter",
+      "description": "Set to 1 to filter server console output using FILTER_PATTERNS.",
+      "env_variable": "ENABLE_FILTER",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Filter Patterns",
+      "description": "Comma-separated console filter patterns. Prefix with @ for exact line match, no prefix for substring match. Example: @Server is hibernating,Certificate expires,edicts used",
+      "env_variable": "FILTER_PATTERNS",
+      "default_value": "Certificate expires",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Filter Preview Mode",
+      "description": "Set to 1 to log filtered lines at DEBUG level instead of dropping them silently. Useful for tuning filter patterns.",
+      "env_variable": "FILTER_PREVIEW_MODE",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Enable Cleanup",
+      "description": "Set to 1 to run file cleanup on startup using CLEANUP_RULES.",
+      "env_variable": "CLEANUP_ENABLED",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Cleanup Rules",
+      "description": "Comma-separated cleanup rules. Each rule: name:dirs:patterns:hours:enabled. Dirs and patterns support multiple values using |. hours=0 means delete on every run. Example: demos:./game/csgo:*.dem:168:true,core_dumps:./game/bin/linuxsteamrt64|/home/container:core|core.[0-9]*:0:true",
+      "env_variable": "CLEANUP_RULES",
+      "default_value": "modsharp_logs:./game/sharp/logs:*.log:72:true,backup_rounds:./game/csgo:backup_round*.txt:24:true,demos:./game/csgo:*.dem:168:true,core_dumps:./game/bin/linuxsteamrt64|/home/container:core|core.[0-9]*:0:true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Log Level",
+      "description": "Minimum log level for console output. Options: DEBUG, INFO, WARNING, ERROR.",
+      "env_variable": "LOG_LEVEL",
+      "default_value": "INFO",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|in:DEBUG,INFO,WARNING,ERROR",
+      "field_type": "text"
+    },
+    {
+      "name": "Log File Enabled",
+      "description": "Set to 1 to write egg logs to daily rotating files under /home/container/egg/logs/.",
+      "env_variable": "LOG_FILE_ENABLED",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Log Max Size (MB)",
+      "description": "Maximum total size of egg log files in MB before oldest are deleted.",
+      "env_variable": "LOG_MAX_SIZE_MB",
+      "default_value": "100",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|min:1",
+      "field_type": "text"
+    },
+    {
+      "name": "Log Max Files",
+      "description": "Maximum number of egg log files to keep.",
+      "env_variable": "LOG_MAX_FILES",
+      "default_value": "30",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|min:1",
+      "field_type": "text"
+    },
+    {
+      "name": "Log Max Days",
+      "description": "Maximum age of egg log files in days.",
+      "env_variable": "LOG_MAX_DAYS",
+      "default_value": "7",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|min:1",
+      "field_type": "text"
+    },
+    {
+      "name": "Custom Parameters",
+      "description": "Additional command-line parameters appended to the server startup command.",
+      "env_variable": "CUSTOM_PARAMS",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    }
+  ]
+}
