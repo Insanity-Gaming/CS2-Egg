@@ -140,9 +140,9 @@
     },
     {
       "name": "ModSharp Extract Blocklist",
-      "description": "Comma-separated list of regex patterns. After each ModSharp update, any extracted path under game/sharp/ that matches a pattern is deleted. Matched against paths relative to game/ (e.g. sharp/modules/AdminCommands). Examples: AdminCommands,DefaultChat.*,^sharp/modules/Weapons$",
+      "description": "Comma-separated list of paths to delete after each ModSharp update. Paths are relative to game/ and support both files and directories. Examples: sharp/modules/AdminCommands,sharp/configs/core.json",
       "env_variable": "MODSHARP_EXTRACT_BLOCKLIST",
-      "default_value": "sharp/configs/core\\.json",
+      "default_value": "sharp/configs/core.json",
       "user_viewable": true,
       "user_editable": true,
       "rules": "nullable|string",

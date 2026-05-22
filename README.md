@@ -71,25 +71,20 @@ Import `egg/insanity-cs2-egg.json` into your Pterodactyl or Pelican panel.
 
 ## ModSharp Extract Blocklist
 
-After each ModSharp update, any extracted path under `game/sharp/` matching a pattern is deleted. Patterns are POSIX ERE regex, matched against the path **relative to `game/`**.
+After each ModSharp update, each entry is deleted by exact path. Paths are relative to `game/`. Directories are removed recursively. Missing paths are silently skipped.
 
 **Examples:**
 
 ```
-# Block a specific module by name (substring match)
-AdminCommands
+# Block a specific module directory
+sharp/modules/AdminCommands
 
-# Block anything starting with "Default"
-Default.*
+# Block a specific file
+sharp/configs/core.json
 
-# Exact path match
-^sharp/modules/Weapons$
-
-# Block multiple
-AdminCommands,DefaultChat.*,^sharp/modules/Weapons$
+# Block multiple (comma-separated)
+sharp/modules/AdminCommands,sharp/modules/DefaultChat,sharp/configs/core.json
 ```
-
-Paths are walked deepest-first, so a blocked parent directory removes all its children cleanly.
 
 ---
 

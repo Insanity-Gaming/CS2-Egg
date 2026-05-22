@@ -38,38 +38,24 @@ apply_extract_blocklist() {
     local csv="${MODSHARP_EXTRACT_BLOCKLIST:-}"
     [[ -z "$csv" ]] && return 0
 
-    # Parse comma-separated regex patterns, trim whitespace
-    local -a patterns=()
-    local p
-    IFS=',' read -ra raw_pats <<< "$csv"
-    for p in "${raw_pats[@]}"; do
-        p="$(echo "$p" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
-        [[ -n "$p" ]] && patterns+=("$p")
+    local removed=0
+    local entry
+    IFS=',' read -ra entries <<< "$csv"
+    for entry in "${entries[@]}"; do
+        entry="$(echo "$entry" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+        [[ -z "$entry" ]] && continue
+
+        local full_path="./game/${entry}"
+        if [[ -e "$full_path" ]]; then
+            rm -rf "$full_path"
+            log_message "Blocked: ${entry}" "info"
+            ((removed++))
+        else
+            log_message "Blocklist: ${entry} not found (skipped)" "debug"
+        fi
     done
 
-    [[ ${#patterns[@]} -eq 0 ]] && return 0
-
-    log_message "Applying extract blocklist (${#patterns[@]} pattern(s))..." "info"
-
-    local removed=0
-    # sort -r = deepest paths first so children are removed before parents
-    while IFS= read -r path; do
-        local rel="${path#./game/}"
-        for pat in "${patterns[@]}"; do
-            if [[ "$rel" =~ $pat ]] 2>/dev/null; then
-                rm -rf "$path"
-                log_message "Blocked: ${rel} (pattern: ${pat})" "debug"
-                ((removed++))
-                break
-            fi
-        done
-    done < <(find ./game/sharp -mindepth 1 2>/dev/null | sort -r)
-
-    if [[ $removed -gt 0 ]]; then
-        log_message "Blocklist removed ${removed} path(s)" "info"
-    else
-        log_message "Blocklist: no paths matched" "debug"
-    fi
+    [[ $removed -gt 0 ]] && log_message "Blocklist removed ${removed} path(s)" "info"
 }
 
 update_modsharp() {
