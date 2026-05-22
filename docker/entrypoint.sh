@@ -87,7 +87,11 @@ purge_base_maps() {
     count=0
 
     while IFS= read -r -d '' f; do
-        rm -f "$f" && ((count++)) || log_message "Failed to delete: $f" "error"
+        if rm -f "$f"; then
+            ((count++)) || true
+        else
+            log_message "Failed to delete: $f" "error"
+        fi
     done < <(find ./game/csgo/maps -maxdepth 1 -name '*.vpk' ! -name 'de_dust2*' -type f -print0 2>/dev/null)
 
     if [[ $count -gt 0 ]]; then
