@@ -13,7 +13,7 @@ NC='\033[0m'
 EGG_DIR="${EGG_DIR:-/home/container/egg}"
 EGG_LOGS_DIR="${EGG_DIR}/logs"
 VERSION_FILE="${EGG_DIR}/versions.txt"
-TEMP_DIR="/home/container/temps"
+export TEMP_DIR="/home/container/temps"
 
 PREFIX_TEXT="${PREFIX_TEXT:-InsanityGaming}"
 

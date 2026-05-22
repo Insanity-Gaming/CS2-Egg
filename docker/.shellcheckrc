@@ -1,0 +1,2 @@
+# SC1091: source paths are absolute container runtime paths — not resolvable at lint time
+disable=SC1091

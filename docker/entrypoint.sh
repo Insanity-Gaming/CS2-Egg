@@ -7,7 +7,7 @@ source /modsharp.sh
 
 trap 'log_message "Error on line ${LINENO}: ${BASH_COMMAND}" "error"' ERR
 
-cd /home/container
+cd /home/container || exit 1
 
 mkdir -p "$EGG_DIR" "$TEMP_DIR"
 

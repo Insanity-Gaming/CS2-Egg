@@ -6,7 +6,7 @@
   },
   "exported_at": "2026-05-21T00:00:00+00:00",
   "name": "Insanity Gaming CS2",
-  "author": "admin@insanitygaming.net",
+  "author": "contact@insanitygaming.net",
   "description": "Insanity Gaming CS2 server egg. SteamRT3 Sniper base. ModSharp support with extract blocklist, base map purge, log cleanup, and console filtering.",
   "features": [],
   "docker_images": {
