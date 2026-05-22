@@ -1,0 +1,7 @@
+# Force LF for all shell scripts and JSON — these run on Linux
+*.sh    text eol=lf
+*.json  text eol=lf
+
+# README and gitignore can follow platform convention
+*.md    text
+.gitignore text
