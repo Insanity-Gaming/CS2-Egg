@@ -47,8 +47,8 @@ fi
 if [[ "${SRCDS_STOP_UPDATE:-0}" -eq 0 ]]; then
     log_message "Running SteamCMD update..." "running"
 
-    local_cmd="./steamcmd/steamcmd.sh +login anonymous"
-    local_cmd+=" +force_install_dir /home/container +app_update ${SRCDS_APPID:-730}"
+    local_cmd="./steamcmd/steamcmd.sh +force_install_dir /home/container"
+    local_cmd+=" +login anonymous +app_update ${SRCDS_APPID:-730}"
 
     if [[ "${SRCDS_VALIDATE:-0}" -eq 1 ]]; then
         local_cmd+=" validate"
