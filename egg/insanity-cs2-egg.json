@@ -142,7 +142,7 @@
       "name": "ModSharp Extract Blocklist",
       "description": "Comma-separated list of paths to delete after each ModSharp update. Paths are relative to game/ and support both files and directories. Examples: sharp/modules/AdminCommands,sharp/configs/core.json",
       "env_variable": "MODSHARP_EXTRACT_BLOCKLIST",
-      "default_value": "sharp/configs/core.json",
+      "default_value": "sharp/configs/core.json,sharp/configs/admins.jsonc",
       "user_viewable": true,
       "user_editable": true,
       "rules": "nullable|string",

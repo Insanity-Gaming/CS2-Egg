@@ -14,6 +14,35 @@ mkdir -p "$EGG_DIR" "$TEMP_DIR"
 # Rotate old log files before anything else
 rotate_logs
 
+# ── SteamCMD bootstrap ────────────────────────────────────────────────────────
+install_steamcmd() {
+    if [[ -f "./steamcmd/steamcmd.sh" ]]; then
+        log_message "SteamCMD already installed" "debug"
+        return 0
+    fi
+
+    log_message "Installing SteamCMD..." "running"
+    mkdir -p ./steamcmd
+
+    local url="https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz"
+    local dl="${TEMP_DIR}/steamcmd_linux.tar.gz"
+
+    if handle_download_and_extract "$url" "$dl" "./steamcmd" "tar.gz"; then
+        rm -f "$dl"
+        chmod +x ./steamcmd/steamcmd.sh
+        log_message "SteamCMD installed" "success"
+        return 0
+    else
+        log_message "Failed to install SteamCMD" "error"
+        rm -f "$dl"
+        return 1
+    fi
+}
+
+if [[ "${SRCDS_STOP_UPDATE:-0}" -eq 0 ]]; then
+    install_steamcmd || { log_message "Cannot proceed without SteamCMD" "error"; exit 1; }
+fi
+
 # ── SteamCMD ──────────────────────────────────────────────────────────────────
 if [[ "${SRCDS_STOP_UPDATE:-0}" -eq 0 ]]; then
     log_message "Running SteamCMD update..." "running"
