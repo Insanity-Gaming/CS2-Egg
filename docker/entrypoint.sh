@@ -74,7 +74,36 @@ if [[ "${SRCDS_STOP_UPDATE:-0}" -eq 0 ]]; then
     cp -f ./steamcmd/linux64/steamclient.so ./.steam/sdk64/steamclient.so 2>/dev/null || true
 fi
 
-# ── Base map purge ─────────────────────────────────────────────────────────────
+# ── Base map / asset purge ─────────────────────────────────────────────────────
+_purge_directory() {
+    local dir="$1" label="$2"
+    if [[ ! -d "$dir" ]]; then
+        log_message "${label}: directory not found, skipping" "debug"
+        return 0
+    fi
+
+    local count=0 entry bn
+    while IFS= read -r -d '' entry; do
+        bn="$(basename "$entry")"
+        if [[ "$bn" == de_dust2* ]]; then
+            log_message "Keeping protected entry: $bn" "debug"
+            continue
+        fi
+        log_message "Purging ${label}: $bn" "debug"
+        if rm -rf "$entry"; then
+            ((count++)) || true
+        else
+            log_message "Failed to delete: $entry" "error"
+        fi
+    done < <(find "$dir" -maxdepth 1 -mindepth 1 -print0 2>/dev/null)
+
+    if [[ $count -gt 0 ]]; then
+        log_message "Purged ${count} entries from ${dir} (de_dust2 kept)" "info"
+    else
+        log_message "Nothing to purge in ${dir}" "debug"
+    fi
+}
+
 purge_base_maps() {
     [[ "${PURGE_BASE_MAPS:-0}" -eq 1 ]] || return 0
 
@@ -83,9 +112,7 @@ purge_base_maps() {
         return 0
     fi
 
-    local count f
-    count=0
-
+    local count=0 f
     while IFS= read -r -d '' f; do
         local bn
         bn="$(basename "$f")"
@@ -106,6 +133,9 @@ purge_base_maps() {
     else
         log_message "No base map .vpk files to purge" "debug"
     fi
+
+    _purge_directory "./game/csgo/prefabs" "prefabs"
+    _purge_directory "./game/csgo_community_addons" "community_addons"
 }
 
 purge_base_maps
