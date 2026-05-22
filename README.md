@@ -2,6 +2,10 @@
 
 Pterodactyl/Pelican egg for CS2 dedicated servers. SteamRT3 Sniper base, ModSharp support.
 
+## Credits
+
+Built using [K4ryuu/CS2-Egg](https://github.com/K4ryuu/CS2-Egg) as a reference.
+
 ## Docker Image
 
 Build from `docker/`:
