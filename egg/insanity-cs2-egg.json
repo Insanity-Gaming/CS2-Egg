@@ -2,7 +2,7 @@
   "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
   "meta": {
     "version": "PTDL_v2",
-    "update_url": null
+    "update_url": "https://raw.githubusercontent.com/Insanity-Gaming/CS2-Egg/master/egg/insanity-cs2-egg.json"
   },
   "exported_at": "2026-05-21T00:00:00+00:00",
   "name": "Insanity Gaming CS2",
@@ -10,7 +10,7 @@
   "description": "Insanity Gaming CS2 server egg. SteamRT3 Sniper base. ModSharp support with extract blocklist, base map purge, log cleanup, and console filtering.",
   "features": [],
   "docker_images": {
-    "Insanity Gaming CS2": "ghcr.io/insanitygaming/cs2-egg:latest"
+    "Insanity Gaming CS2": "ghcr.io/insanity-gaming/cs2-egg:latest"
   },
   "file_denylist": [],
   "startup": "./game/cs2.sh {{CUSTOM_PARAMS}} -dedicated +ip 0.0.0.0 -port {{SERVER_PORT}} +map {{SRCDS_MAP}} -maxplayers {{SRCDS_MAXPLAYERS}} +sv_setsteamaccount {{STEAM_ACC}} +game_type {{GAME_TYPE}} +game_mode {{GAME_MODE}}",
