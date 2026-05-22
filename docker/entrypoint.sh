@@ -83,12 +83,15 @@ purge_base_maps() {
         return 0
     fi
 
-    local count
-    count=$(find ./game/csgo/maps -maxdepth 1 -name '*.vpk' -type f 2>/dev/null | wc -l)
+    local count f
+    count=0
+
+    while IFS= read -r -d '' f; do
+        rm -f "$f" && ((count++)) || log_message "Failed to delete: $f" "error"
+    done < <(find ./game/csgo/maps -maxdepth 1 -name '*.vpk' ! -name 'de_dust2*' -type f -print0 2>/dev/null)
 
     if [[ $count -gt 0 ]]; then
-        rm -f ./game/csgo/maps/*.vpk
-        log_message "Purged ${count} base map .vpk file(s) from game/csgo/maps" "info"
+        log_message "Purged ${count} base map .vpk file(s) from game/csgo/maps (de_dust2 kept)" "info"
     else
         log_message "No base map .vpk files to purge" "debug"
     fi
