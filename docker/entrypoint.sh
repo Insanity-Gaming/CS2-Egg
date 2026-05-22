@@ -87,12 +87,19 @@ purge_base_maps() {
     count=0
 
     while IFS= read -r -d '' f; do
+        local bn
+        bn="$(basename "$f")"
+        if [[ "$bn" == de_dust2* ]]; then
+            log_message "Keeping protected map: $bn" "debug"
+            continue
+        fi
+        log_message "Purging base map: $bn" "debug"
         if rm -f "$f"; then
             ((count++)) || true
         else
             log_message "Failed to delete: $f" "error"
         fi
-    done < <(find ./game/csgo/maps -maxdepth 1 -name '*.vpk' ! -name 'de_dust2*' -type f -print0 2>/dev/null)
+    done < <(find ./game/csgo/maps -maxdepth 1 -name '*.vpk' -type f -print0 2>/dev/null)
 
     if [[ $count -gt 0 ]]; then
         log_message "Purged ${count} base map .vpk file(s) from game/csgo/maps (de_dust2 kept)" "info"
