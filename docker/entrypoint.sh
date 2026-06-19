@@ -152,6 +152,7 @@ if [[ "${INSTALL_MODSHARP:-0}" -eq 1 ]]; then
     fi
     rm -rf "$TEMP_DIR"
 else
+    remove_from_gameinfo "sharp"
     patch_tokenless_setting
 fi
 

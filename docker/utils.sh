@@ -254,6 +254,36 @@ add_to_gameinfo() {
     fi
 }
 
+remove_from_gameinfo() {
+    local addon_path="$1"
+
+    if [[ ! -f "$GAMEINFO_FILE" ]]; then
+        log_message "gameinfo.gi not found" "debug"
+        return 0
+    fi
+
+    if ! grep -q "Game[[:blank:]]*${addon_path}" "$GAMEINFO_FILE"; then
+        log_message "${addon_path} not in gameinfo.gi, nothing to remove" "debug"
+        return 0
+    fi
+
+    log_message "Removing ${addon_path} from gameinfo.gi..." "info"
+
+    cp "$GAMEINFO_FILE" "${GAMEINFO_FILE}.bak" || { log_message "Failed to backup gameinfo.gi" "error"; return 1; }
+
+    sed "/Game[[:blank:]]*${addon_path}/d" "${GAMEINFO_FILE}.bak" > "$GAMEINFO_FILE"
+
+    if ! grep -q "Game[[:blank:]]*${addon_path}" "$GAMEINFO_FILE"; then
+        log_message "Removed ${addon_path} from gameinfo.gi" "success"
+        rm -f "${GAMEINFO_FILE}.bak"
+        return 0
+    else
+        log_message "Failed to remove ${addon_path} from gameinfo.gi, restoring backup" "error"
+        mv "${GAMEINFO_FILE}.bak" "$GAMEINFO_FILE"
+        return 1
+    fi
+}
+
 patch_tokenless_setting() {
     [[ -f "$GAMEINFO_FILE" ]] || return 0
 
