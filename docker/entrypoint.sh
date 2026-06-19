@@ -70,6 +70,7 @@ if [[ "${SRCDS_STOP_UPDATE:-0}" -eq 0 ]]; then
     esac
 
     # Keep steamclient.so in sync
+    mkdir -p ./.steam/sdk32 ./.steam/sdk64
     cp -f ./steamcmd/linux32/steamclient.so ./.steam/sdk32/steamclient.so 2>/dev/null || true
     cp -f ./steamcmd/linux64/steamclient.so ./.steam/sdk64/steamclient.so 2>/dev/null || true
 fi

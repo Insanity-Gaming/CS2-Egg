@@ -123,6 +123,10 @@ update_modsharp() {
     fi
     rm -f "$ext_dl"
 
+    # Step 6b: On first install, capture freshly extracted defaults before blocklist wipes them
+    [[ ! -f "$cfg_bak" && -f "${MODSHARP_DIR}/configs/core.json"    ]] && cp "${MODSHARP_DIR}/configs/core.json"    "$cfg_bak"
+    [[ ! -f "$adm_bak" && -f "${MODSHARP_DIR}/configs/admins.jsonc" ]] && cp "${MODSHARP_DIR}/configs/admins.jsonc" "$adm_bak"
+
     # Step 7: Apply extract blocklist
     apply_extract_blocklist
 
