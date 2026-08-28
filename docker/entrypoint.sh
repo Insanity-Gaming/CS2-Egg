@@ -9,7 +9,7 @@ trap 'log_message "Error on line ${LINENO}: ${BASH_COMMAND}" "error"' ERR
 
 cd /home/container || exit 1
 
-mkdir -p "$TEMP_DIR"
+mkdir -p "$EGG_DIR" "$TEMP_DIR"
 
 # Rotate old log files before anything else
 rotate_logs
