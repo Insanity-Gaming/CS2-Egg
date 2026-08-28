@@ -10,9 +10,7 @@ GRAY='\033[0;90m'
 NC='\033[0m'
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-EGG_DIR="${EGG_DIR:-/home/container/egg}"
-EGG_LOGS_DIR="${EGG_DIR}/logs"
-VERSION_FILE="${EGG_DIR}/versions.txt"
+VERSION_FILE="/home/container/game/sharp/versions.txt"
 export TEMP_DIR="/home/container/temps"
 
 PREFIX_TEXT="${PREFIX_TEXT:-InsanityGaming}"
@@ -73,45 +71,6 @@ log_message() {
         "$color" "$tag" "$NC" \
         "$sep" \
         "$color" "$message" "$NC"
-
-    # File logging
-    if [[ "${LOG_FILE_ENABLED:-0}" == "1" || "${LOG_FILE_ENABLED:-0}" == "true" ]]; then
-        mkdir -p "$EGG_LOGS_DIR"
-        local ts; ts="$(date '+%Y-%m-%d %H:%M:%S')"
-        echo "[$ts] [$type] $message" >> "${EGG_LOGS_DIR}/$(date '+%Y-%m-%d').log"
-    fi
-}
-
-rotate_logs() {
-    [[ "${LOG_FILE_ENABLED:-0}" == "1" || "${LOG_FILE_ENABLED:-0}" == "true" ]] || return 0
-    [[ -d "$EGG_LOGS_DIR" ]] || return 0
-
-    local max_days="${LOG_MAX_DAYS:-7}"
-    local max_files="${LOG_MAX_FILES:-30}"
-    local max_mb="${LOG_MAX_SIZE_MB:-100}"
-
-    [[ $max_days -gt 0 ]] && find "$EGG_LOGS_DIR" -name "*.log" -type f -mtime "+${max_days}" -delete 2>/dev/null
-
-    if [[ $max_files -gt 0 ]]; then
-        local count; count=$(find "$EGG_LOGS_DIR" -name "*.log" -type f | wc -l)
-        if [[ $count -gt $max_files ]]; then
-            find "$EGG_LOGS_DIR" -name "*.log" -type f -printf '%T+ %p\n' \
-                | sort | head -n $((count - max_files)) | cut -d' ' -f2- | xargs -r rm -f
-        fi
-    fi
-
-    if [[ $max_mb -gt 0 ]]; then
-        local kb max_kb
-        kb=$(du -sk "$EGG_LOGS_DIR" | cut -f1)
-        max_kb=$((max_mb * 1024))
-        while [[ $kb -gt $max_kb ]]; do
-            local oldest
-            oldest=$(find "$EGG_LOGS_DIR" -name "*.log" -type f -printf '%T+ %p\n' | sort | head -n1 | cut -d' ' -f2-)
-            [[ -z "$oldest" ]] && break
-            rm -f "$oldest"
-            kb=$(du -sk "$EGG_LOGS_DIR" | cut -f1)
-        done
-    fi
 }
 
 # ── Secret masking ────────────────────────────────────────────────────────────

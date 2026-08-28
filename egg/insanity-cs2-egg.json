@@ -230,46 +230,6 @@
       "field_type": "text"
     },
     {
-      "name": "Log File Enabled",
-      "description": "Set to 1 to write egg logs to daily rotating files under /home/container/egg/logs/.",
-      "env_variable": "LOG_FILE_ENABLED",
-      "default_value": "0",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
-    },
-    {
-      "name": "Log Max Size (MB)",
-      "description": "Maximum total size of egg log files in MB before oldest are deleted.",
-      "env_variable": "LOG_MAX_SIZE_MB",
-      "default_value": "100",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|numeric|min:1",
-      "field_type": "text"
-    },
-    {
-      "name": "Log Max Files",
-      "description": "Maximum number of egg log files to keep.",
-      "env_variable": "LOG_MAX_FILES",
-      "default_value": "30",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|numeric|min:1",
-      "field_type": "text"
-    },
-    {
-      "name": "Log Max Days",
-      "description": "Maximum age of egg log files in days.",
-      "env_variable": "LOG_MAX_DAYS",
-      "default_value": "7",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|numeric|min:1",
-      "field_type": "text"
-    },
-    {
       "name": "Custom Parameters",
       "description": "Additional command-line parameters appended to the server startup command.",
       "env_variable": "CUSTOM_PARAMS",

@@ -11,9 +11,6 @@ cd /home/container || exit 1
 
 mkdir -p "$TEMP_DIR"
 
-# Rotate old log files before anything else
-rotate_logs
-
 # ── SteamCMD bootstrap ────────────────────────────────────────────────────────
 install_steamcmd() {
     if [[ -f "./steamcmd/steamcmd.sh" ]]; then

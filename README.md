@@ -68,10 +68,6 @@ Import `egg/insanity-cs2-egg.json` into your Pterodactyl or Pelican panel.
 | Variable | Default | Description |
 |---|---|---|
 | `LOG_LEVEL` | `INFO` | `DEBUG` / `INFO` / `WARNING` / `ERROR` |
-| `LOG_FILE_ENABLED` | `0` | Set to `1` to write daily log files to `/home/container/egg/logs/`. |
-| `LOG_MAX_SIZE_MB` | `100` | Max total log directory size in MB. |
-| `LOG_MAX_FILES` | `30` | Max number of log files. |
-| `LOG_MAX_DAYS` | `7` | Max age of log files in days. |
 
 ---
 
