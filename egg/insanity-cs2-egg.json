@@ -7,10 +7,11 @@
   "exported_at": "2026-05-21T00:00:00+00:00",
   "name": "Insanity Gaming CS2",
   "author": "contact@insanitygaming.net",
-  "description": "Insanity Gaming CS2 server egg. SteamRT3 Sniper base. ModSharp support with extract blocklist, base map purge, log cleanup, and console filtering.",
+  "description": "Insanity Gaming CS2 server egg. SteamRT3 Sniper base (latest). ModSharp support with extract blocklist, base map purge, log cleanup, and console filtering. A SteamRT4/Debian 13 image is available under 'beta' for testing before it becomes the default.",
   "features": [],
   "docker_images": {
-    "Insanity Gaming CS2": "ghcr.io/insanity-gaming/cs2-egg:latest"
+    "Insanity Gaming CS2": "ghcr.io/insanity-gaming/cs2-egg:latest",
+    "Insanity Gaming CS2 (SteamRT4 beta)": "ghcr.io/insanity-gaming/cs2-egg:beta"
   },
   "file_denylist": [],
   "startup": "./game/cs2.sh {{CUSTOM_PARAMS}} -dedicated +ip 0.0.0.0 -port {{SERVER_PORT}} +map {{SRCDS_MAP}} -maxplayers {{SRCDS_MAXPLAYERS}} +sv_setsteamaccount {{STEAM_ACC}} +game_type {{GAME_TYPE}} +game_mode {{GAME_MODE}}",

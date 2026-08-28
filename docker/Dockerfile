@@ -1,6 +1,6 @@
-FROM registry.gitlab.steamos.cloud/steamrt/sniper/platform:latest-container-runtime-depot
+FROM registry.gitlab.steamos.cloud/steamrt/steamrt4/platform:latest-container-runtime-depot
 
-LABEL org.opencontainers.image.description="Insanity Gaming CS2 — SteamRT3 Sniper egg for Pterodactyl/Pelican"
+LABEL org.opencontainers.image.description="Insanity Gaming CS2 — SteamRT4 (Debian 13) egg for Pterodactyl/Pelican [beta]"
 
 RUN mkdir -p /etc/sudoers.d && \
     echo "%sudo ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/flatdeb && \
@@ -13,6 +13,7 @@ RUN apt-get update && \
         curl \
         iproute2 \
         jq \
+        libicu76 \
         unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

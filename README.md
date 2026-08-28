@@ -2,6 +2,8 @@
 
 Pterodactyl/Pelican egg for CS2 dedicated servers. SteamRT3 Sniper base, ModSharp support.
 
+> **Beta branch:** this branch builds the image from **SteamRT4 (Debian 13)** instead of SteamRT3 Sniper (Debian 11), published as `ghcr.io/insanity-gaming/cs2-egg:beta`. `master` and the `:latest` image are unaffected — switch a test server's Docker Image to the "Insanity Gaming CS2 (SteamRT4 beta)" option in the egg to try it, and switch back to roll back. This will be promoted to `master`/`:latest` once verified on a live server.
+
 ## Credits
 
 Built using [K4ryuu/CS2-Egg](https://github.com/K4ryuu/CS2-Egg) as a reference.

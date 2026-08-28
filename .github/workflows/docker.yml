@@ -2,7 +2,7 @@ name: Docker
 
 on:
   push:
-    branches: [master]
+    branches: [master, beta]
 
 env:
   REGISTRY: ghcr.io
@@ -21,6 +21,14 @@ jobs:
       - name: Set lowercase image name
         run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
 
+      - name: Resolve image tag
+        run: |
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            echo "IMAGE_TAG=latest" >> "$GITHUB_ENV"
+          else
+            echo "IMAGE_TAG=${{ github.ref_name }}" >> "$GITHUB_ENV"
+          fi
+
       - uses: docker/setup-buildx-action@v3
 
       - name: Log in to GHCR
@@ -35,6 +43,6 @@ jobs:
         with:
           context: ./docker
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
