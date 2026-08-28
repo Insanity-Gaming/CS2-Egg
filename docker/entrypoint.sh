@@ -11,6 +11,8 @@ cd /home/container || exit 1
 
 mkdir -p "$TEMP_DIR"
 
+migrate_legacy_version_file
+
 # ── SteamCMD bootstrap ────────────────────────────────────────────────────────
 install_steamcmd() {
     if [[ -f "./steamcmd/steamcmd.sh" ]]; then

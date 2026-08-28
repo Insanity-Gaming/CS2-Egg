@@ -107,6 +107,22 @@ update_version_file() {
     fi
 }
 
+# versions.txt moved from /home/container/egg/versions.txt to game/sharp/ (MODSHARP_DIR).
+# Without this, existing installs would look empty here and re-download ModSharp/.NET needlessly.
+migrate_legacy_version_file() {
+    local legacy_file="/home/container/egg/versions.txt"
+
+    [[ -f "$legacy_file" && ! -f "$VERSION_FILE" ]] || return 0
+
+    mkdir -p "$(dirname "$VERSION_FILE")"
+    if mv "$legacy_file" "$VERSION_FILE"; then
+        log_message "Migrated versions.txt to ${VERSION_FILE}" "info"
+        rmdir /home/container/egg 2>/dev/null || true
+    else
+        log_message "Failed to migrate legacy versions.txt from ${legacy_file}" "warning"
+    fi
+}
+
 # ── GitHub release fetch ──────────────────────────────────────────────────────
 # Outputs JSON: {version, asset_url, asset_name, is_prerelease}
 get_github_release() {
